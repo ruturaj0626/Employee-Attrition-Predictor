@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Attrition Prediction</title>
+  <style>
+    body {
+      background-image: url("/static/im2.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      background-color: #f4f4f4;
+      background-image: url("/static/im3.jpg");
+      color: #151414;
+      text-align: center;
+      margin-right: 100px;
+      width: 640px; /* Add this line */
+      margin: 50px auto;
+    }
+
+    label {
+      display: inline-block;
+      width: 200px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="number"],
+    input[type="range"],
+    select {
+      width: 200px;
+      padding: 5px;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    input[type="button"] {
+      padding: 10px 20px;
+      background-color: #0d0d0e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 50px;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    input[type="button"]:hover {
+      background-color: #09c10d;
+      transform: scale(1.2);
+    }
+
+    /* style.css for the first HTML file */
+
+    #page-1 {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      background-image: url("/static/im3.jpg");
+    }
+
+    #page-1::after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+    }
+    .predict-button {
+      background-color: #0d0d0e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 50px;
+      margin-left: 250px;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .predict-button:hover {
+      background-color: #09c10d;
+      transform: scale(1.4);
+    }
+    .form-container {
+      max-height: 500px; /* Adjust the height as needed */
+      overflow-y: scroll;
+      background-image:url("/static/im3.jpg") ;
+      padding: 20px;
+      margin: 0 auto;
+    }
+
+  </style>
+
+</head>
+
+<body>
+<div class="login">
+
+  <h1>Predict Attrition</h1>
+  
+
+  <!-- Main Input For Receiving Query to our ML -->
+  <form id="page-1" action="{{ url_for('predict')}}" method="POST" autocomplete="on">
+    <div class="form-container">
+    <label><strong>Age</strong></label>
+    <input type="number" name="Age" placeholder="18-80" required min="18" max="80"><br><br>
+
+    <label><strong>BusinessTravel</strong></label>
+    <input type="radio" name="BusinessTravel" id="Rarely" value="Rarely">Rarely
+    <input type="radio" name="BusinessTravel" id="Frequently" value="Frequently">Frequently
+    <input type="radio" name="BusinessTravel" id="No Travel" value="No Travel">No Travel<br><br>
+
+    <label><strong>Daily Rate</strong></label>
+    <input type="number" name="Daily Rate" placeholder="100-1600" required min="100" max="1600" size="30"><br><br>
+
+    <label><strong>Department</strong></label>
+    <select name="Department">
+      <option value="" disabled selected>-----Select-----</option>
+      <option value="Research & Development">Research & Development</option>
+      <option value="Human Resources">Human Resources</option>
+      <option value="Sales">Sales</option>
+    </select><br><br>
+
+    <label><strong>Distance From Home</strong></label>
+    <input type="number" name="Distance From Home" placeholder="1-29" required min="1" max="29"><br><br>
+
+    <label><strong>Education</strong>:</label>
+    <input type="number" name="Education" placeholder="1-5" required min="1" max="5"><br><br>
+
+    <label><strong>Education Field</strong></label>
+    <select name="Education Field">
+      <option value="" disabled selected>-----Select-----</option>
+      <option value="Life Sciences">Life Sciences</option>
+      <option value="Medical">Medical</option>
+      <option value="Marketing">Marketing</option>
+      <option value="Technical Degree">Technical Degree</option>
+      <option value="Human Resources">Human Resources</option>
+      <option value="Other">Other</option>
+    </select><br><br>
+
+    <label><strong>Environment Satisfaction</strong></label>
+    <input type="number" name="Environment Satisfaction" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Gender</strong>:</label>
+    <input type="radio" name="Gender" id="Male" value="Male">Male
+    <input type="radio" name="Gender" id="Female" value="Female">Female<br><br>
+
+    <label><strong>Hourly Rate</strong>:</label>
+    <input type="number" name="Hourly Rate" placeholder="30-100" required min="30" max="100"><br><br>
+
+    <label><strong>Job Involvement</strong>:</label>
+    <input type="number" name="Job Involvement" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Job Level</strong>:</label>
+    <input type="number" name="Job Level" placeholder="1-5" required min="1" max="5"><br><br>
+
+    <label><strong>Job Role</strong></label>
+    <select name="Job Role">
+      <option value="" disabled selected>-----Select-----</option>
+      <option value="Sales Executives">Sales Executive</option>
+      <option value="Research Scientist">Research Scientist</option>
+      <option value="Laboratory Technician">Laboratory Technician</option>
+      <option value="Manufacturing Director">Manufacturing Director</option>
+      <option value="Healthcare Representative">Healthcare Representative</option>
+      <option value="Manager">Manager</option>
+      <option value="Sales Representative">Sales Representative</option>
+      <option value="Research Director">Research Director</option>
+      <option value="Human Resources">Human Resources</option>
+    </select><br><br>
+
+    <label><strong>Job Satisfaction</strong></label>
+    <input type="number" name="Job Satisfaction" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Marital Status</strong></label>
+    <input type="radio" name="Marital Status" id="Married" value="Married">Married
+    <input type="radio" name="Marital Status" id="Single" value="Single">Single
+    <input type="radio" name="Marital Status" id="Divorced" value="Divorced">Divorced<br><br>
+
+    <label><strong>Monthly Income</strong></label>
+    <input type="number" name="Monthly Income" placeholder="1000-20000" required min="1000" max="20000" size="30"><br><br>
+
+    <label><strong>Number of Companies Worked in</strong></label>
+    <input type="number" name="Number of Companies Worked in" placeholder="0-9" required min="1" max="9"><br><br>
+
+    <label><strong>Over Time</strong></label>
+    <input type="radio" name="Over Time" id="Yes" value="Yes">Yes
+    <input type="radio" name="Over Time" id="No" value="No">No<br><br>
+
+    <label><strong>Performance Rating</strong></label>
+    <input type="number" name="Performance Rating" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Relationship Satisfaction</strong></label>
+    <input type="number" name="Relationship Satisfaction" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Stock Option Level</strong></label>
+    <input type="number" name="Stock Option Level" placeholder="0-3" required min="0" max="3"><br><br>
+
+    <label><strong>Total Working Years</strong></label>
+    <input type="number" name="Total Working Years" placeholder="0-40" required min="0" max="40"><br><br>
+
+    <label><strong>Training Times Last Year</strong></label>
+    <input type="number" name="Training Times Last Year" placeholder="0-6" required min="0" max="6"><br><br>
+
+    <label><strong>Work Life Balance</strong></label>
+    <input type="number" name="Work Life Balance" placeholder="1-4" required min="1" max="4"><br><br>
+
+    <label><strong>Years At Company</strong></label>
+    <input type="number" name="Years At Company" placeholder="0-40" required min="0" max="40"><br><br>
+
+    <label><strong>Years In Current Role</strong></label>
+    <input type="number" name="Years In Current Role" placeholder="0-18" required min="0" max="18"><br><br>
+
+    <label><strong>Years Since Last Promotion</strong></label>
+    <input type="number" name="Years Since Last Promotion" placeholder="0-15" required min="0" max="15"><br><br>
+
+    <label><strong>Years With Current Manager</strong></label>
+    <input type="number" name="Years With Curr Manager" placeholder="0-17" required min="0" max="17"><br><br>
+    <br>
+    <button type="submit" class="predict-button">Predict</button>
+  </form>
+</div>
+  <br><br>
+  <h1>{{ prediction_text }}</h1>
+
+
+</body>
+</html>
